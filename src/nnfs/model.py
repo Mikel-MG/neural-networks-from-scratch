@@ -2,12 +2,19 @@ import numpy as np
 
 from .layers import BaseLayer
 from .losses import Loss
+from .optimizers import BaseOptimizer
 
 
 class Sequential:
-    def __init__(self, list_layers: list, loss: Loss):
+    def __init__(
+        self,
+        list_layers: list,
+        loss: Loss,
+        optimizer: BaseOptimizer,
+    ):
         self.layers: list[BaseLayer] = list_layers
         self.loss = loss
+        self.optimizer = optimizer
 
     def forward(self, X_inputs: np.ndarray):
         """
@@ -27,18 +34,20 @@ class Sequential:
             grad = layer.backward(grad)
         return grad
 
-    def update_weights(self, lr: float = 0.01):
+    def update_weights(self) -> None:
         """
         Update all layer weights and biases using stored gradients.
-
-        lr: learning rate (float)
         """
         # gradient descent update
         for layer in self.layers:
-            layer.update_weights(lr)
+            if layer.trainable is not None:
+                for param, grad in layer.trainable:
+                    self.optimizer.update(param, grad)
 
     def run_training_epoch(
-        self, X_inputs: np.ndarray, y_true: np.ndarray, lr: float = 0.01
+        self,
+        X_inputs: np.ndarray,
+        y_true: np.ndarray,
     ):
         # run forward pass
         y_pred = self.forward(X_inputs)
@@ -48,9 +57,9 @@ class Sequential:
         d_loss = self.loss.backward()
 
         # run backward pass
-        grad = self.backward(d_loss)
+        _grad = self.backward(d_loss)
 
-        self.update_weights(lr)
+        self.update_weights()
 
         # re-compute loss
         y_pred = self.forward(X_inputs)
@@ -79,5 +88,5 @@ class Sequential:
     def weights(self):
         weights = []
         for layer in self.layers:
-            weights.append(layer.weights)
+            weights.append(layer.trainable)
         return weights

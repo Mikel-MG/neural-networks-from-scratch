@@ -6,6 +6,10 @@ import numpy as np
 class BaseLayer(ABC):
     """
     Base class of a layer
+
+    Layers may optionally define a `trainable` property returning
+    a list of (param, grad) tuples. Layers without trainable parameters
+    do not need to implement it.
     """
 
     @abstractmethod
@@ -16,20 +20,17 @@ class BaseLayer(ABC):
     def backward(self, grad_next: np.ndarray) -> np.ndarray:
         pass
 
-    @abstractmethod
-    def update_weights(self, lr: float):
-        pass
-
-    @abstractmethod
-    def weights(self) -> np.ndarray:
-        pass
+    @property
+    def trainable(self):
+        return None
 
 
 class Dense(BaseLayer):
-    def __init__(self, input_size, output_size, activation=None):
-        self.activation = activation
+    def __init__(self, input_size, output_size):
+        # layer parameters
         self.W = np.random.uniform(size=(input_size, output_size))
         self.b = np.zeros(shape=(1, output_size))
+
         # cache for gradients and inputs
         self.dW = np.zeros(shape=self.W.shape)
         self.db = np.zeros(shape=self.b.shape)
@@ -47,8 +48,6 @@ class Dense(BaseLayer):
         """
         self.X_input = X_input
         output = np.matmul(X_input, self.W) + self.b
-        if self.activation is not None:
-            output = self.activation(output)
         return output
 
     def backward(self, grad_next: np.ndarray):
@@ -63,21 +62,15 @@ class Dense(BaseLayer):
         d_input = np.matmul(grad_next, self.W.T)  # shape: (batch_size, input_dim)
         return d_input
 
-    def update_weights(self, lr):
-        """
-        Update layer weights and biases using stored gradients.
-
-        lr: learning rate (float)
-        """
-        self.W -= lr * self.dW
-        self.b -= lr * self.db
-
     @property
-    def weights(self):
+    def trainable(self) -> list[tuple[np.ndarray, np.ndarray]]:
         """
-        Convenience method for retrieving the layer parameters
+        Returns the layer's trainable parameters and their gradients.
+
+        Each element is a tuple (param, grad) representing a parameter array
+        and its corresponding gradient, which are usedfor updates by an optimizer.
         """
-        return [self.W, self.b]
+        return [(self.W, self.dW), (self.b, self.db)]
 
 
 a = Dense(2, 3)
