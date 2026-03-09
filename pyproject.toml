@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neural-networks-from-scratch"
+version = "0.1.0"
+description = "A lightweight neural network framework implemented from scratch using pure NumPy."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Mikel Martinez Goikoetxea" }
+]
+license = { text = "MIT" }
+
+# runtime dependencies (required to use the library)
+dependencies = [
+    "numpy>=2.0"
+]
+
+# optional development dependencies (notebooks, testing)
+[project.optional-dependencies]
+dev = [
+    "jupyterlab",
+    "matplotlib",
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings-python",
+
+]
+
+# instruct setuptools to use the src/ layout
+[tool.setuptools.packages.find]
+where = ["src"]
