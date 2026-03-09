@@ -1,0 +1,45 @@
+site_name: Documentation for RCC1 analyses
+nav:
+  - Home: index.md
+  - Math:
+      - Layers: math_layers.md
+      - Activation functions: math_activations.md
+  - API reference:
+      - Layers: api_layers.md
+      - Activation functions: api_activations.md
+theme:
+  name: material
+  features:
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+              allow_inspection: true
+              show_signature_annotations: false
+              show_root_heading: false
+              show_root_toc_entry: false
+              show_source: true
+              backlinks: true
+              # show_inheritance_diagram: true
+              show_submodules: true
+              docstring_style: google
+              members_order: source
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+extra_javascript:
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
