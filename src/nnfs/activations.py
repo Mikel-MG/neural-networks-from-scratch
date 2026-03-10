@@ -17,7 +17,7 @@ class BaseActivation(BaseLayer):
         pass
 
 
-def func_sigmoid(x):
+def func_sigmoid(x: np.ndarray):
     return 1 / (1 + np.exp(-x))
 
 
