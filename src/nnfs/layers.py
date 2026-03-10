@@ -26,7 +26,7 @@ class BaseLayer(ABC):
 
 
 class Dense(BaseLayer):
-    def __init__(self, input_size, output_size):
+    def __init__(self, input_size: int, output_size: int):
         # layer parameters
         self.W = np.random.uniform(size=(input_size, output_size))
         self.b = np.zeros(shape=(1, output_size))
@@ -71,6 +71,3 @@ class Dense(BaseLayer):
         and its corresponding gradient, which are usedfor updates by an optimizer.
         """
         return [(self.W, self.dW), (self.b, self.db)]
-
-
-a = Dense(2, 3)
