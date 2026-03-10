@@ -10,11 +10,7 @@ class BaseActivation(BaseLayer):
     since they do not have trainable parameters
     """
 
-    def update_weights(self, lr: float):
-        pass
-
-    def weights(self):
-        pass
+    pass
 
 
 def func_sigmoid(x: np.ndarray):
@@ -60,6 +56,3 @@ class Sigmoid(BaseActivation):
             np.ndarray: Gradient of the loss with respect to this layer's input.
         """
         return grad_next * self.output * (1 - self.output)
-
-
-a = Sigmoid()
