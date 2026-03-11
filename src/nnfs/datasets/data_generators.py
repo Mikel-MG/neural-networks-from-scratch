@@ -70,3 +70,52 @@ def generate_two_moons(
     Y = Y.reshape(-1, 1)
 
     return (X, Y)
+
+
+def generate_concentric_circles(
+    n_samples: int,
+    n_circles: int,
+    binary: bool = False,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Generates x and y coordinates that represent concentric circles.
+
+    By default, each circle has its own category (y), which increases with the radius.
+    Can be made into a binary classification dataset with the `binary` flag.
+
+    Args:
+        n_samples (int): Number of data points to generate.
+        n_circles (int): Number of circles to generate.
+        binary (bool): Whether to generate alternating binary categories.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray]: X and Y data.
+    """
+    delta_r_per_circle = 2
+
+    list_circle_data = []
+
+    for i in range(n_circles):
+        # generate random distribution of angles
+        theta = np.random.rand(n_samples) * 2 * np.pi
+        # generate random distribution of radii
+        r = np.random.rand(n_samples) * delta_r_per_circle + delta_r_per_circle * i
+        # generate coordinates that fit inside the circle
+        x = r * np.cos(theta)
+        y = r * np.sin(theta)
+
+        X_circle = np.stack([x, y], axis=1)
+        list_circle_data.append(X_circle)
+
+    # stack coordinate data
+    X = np.vstack(list_circle_data)
+
+    # generate category data
+    if binary is True:
+        Y = np.hstack([np.ones(n_samples) * i % 2 for i in range(n_circles)])
+    else:
+        Y = np.hstack([np.ones(n_samples) * i for i in range(n_circles)])
+
+    # reshape category data to (n_samples, 1)
+    Y = Y.reshape(-1, 1)
+
+    return (X, Y)
