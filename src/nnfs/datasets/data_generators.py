@@ -60,14 +60,13 @@ def generate_two_moons(
     Y = np.hstack([np.zeros(n_samples), np.ones(n_samples)])
 
     # add noise
-    noise = np.random.rand(X.shape[0], 2)
+    noise = np.random.rand(X.shape[0], 2) / 1.5
     X += noise
 
     # scale vertical dimension
     X[:, 1] *= 2
 
     # reshape data
-    X = X.reshape(-1, 1)
     Y = Y.reshape(-1, 1)
 
     return (X, Y)
