@@ -24,7 +24,7 @@ class Sigmoid(BaseActivation):
     and computes its derivative during backpropagation.
 
     Attributes:
-        output (np.ndarray): Stores the output from the forward pass for use in backward.
+        output (np.ndarray): Stores the output from the forward pass for use in the backward pass.
     """
 
     def __init__(self):
