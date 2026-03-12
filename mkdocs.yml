@@ -5,8 +5,9 @@ nav:
       - Layers: math_layers.md
       - Activation functions: math_activations.md
   - API reference:
-      - Layers: api_layers.md
-      - Activation functions: api_activations.md
+      - Datasets: api/api_datasets.md
+      - Layers: api/api_layers.md
+      - Activation functions: api/api_activations.md
 theme:
   name: material
   features:
