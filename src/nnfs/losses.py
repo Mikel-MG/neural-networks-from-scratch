@@ -4,8 +4,18 @@ import numpy as np
 
 
 class Loss(ABC):
+    """Template for loss functions.
+
+    Loss functions are conceptually equivalent to layers,
+    in that they implement forward and backward passes. However,
+    only one loss object per model is allowed, which is directly
+    provided to the model, instead of to the list of layers.
+
+    Loss objects have no trainable parameters
+    """
+
     @abstractmethod
-    def forward(self, y_pred, y_true):
+    def forward(self, y_pred: np.ndarray, y_true: np.ndarray):
         pass
 
     @abstractmethod
@@ -19,8 +29,17 @@ class MSE(Loss):
     """
 
     def forward(self, y_pred: np.ndarray, y_true: np.ndarray) -> float:
-        """
-        Run forward pass and store y_pred and y_true
+        """Computes the forward pass of the loss function.
+
+        The method stores `y_pred` and `y_true` as instance attributes for
+        later use by the backward pass.
+
+        Args:
+            y_pred (np.ndarray): Predictions produced by the model.
+            y_true (np.ndarray): Ground-truth values for the prediction task.
+
+        Returns:
+            The computed loss value.
         """
         self.y_pred = y_pred
         self.y_true = y_true
