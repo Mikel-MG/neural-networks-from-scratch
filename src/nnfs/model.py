@@ -39,7 +39,7 @@ class Sequential:
         takes the input data) and passes its output to the next layer.
 
         Args:
-            X_inputs (np.ndarray): Input data to the model, with shape=(M samples, N features)
+            X_inputs (np.ndarray): Input data to the model, with shape=(M samples, N features).
 
         Returns:
             Predictions produced by the model.
@@ -149,7 +149,7 @@ class Sequential:
         """Returns each layer's trainable parameters.
 
         Returns:
-            List of each layer's trainable parameters.'
+            List of each layer's trainable parameters.
         """
         weights = []
         for layer in self.layers:

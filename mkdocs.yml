@@ -6,8 +6,11 @@ nav:
       - Activation functions: math_activations.md
   - API reference:
       - Datasets: api/api_datasets.md
+      - Model: api/api_model.md
       - Layers: api/api_layers.md
+      - Loss functions: api/api_losses.md
       - Activation functions: api/api_activations.md
+      - Optimizers: api/api_optimizers.md
 theme:
   name: material
   features:
