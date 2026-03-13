@@ -145,7 +145,12 @@ class Sequential:
         print(f"Epoch {i_epoch} - Loss: {loss}")
 
     @property
-    def weights(self):
+    def weights(self) -> list:
+        """Returns each layer's trainable parameters.
+
+        Returns:
+            List of each layer's trainable parameters.'
+        """
         weights = []
         for layer in self.layers:
             weights.append(layer.trainable)
