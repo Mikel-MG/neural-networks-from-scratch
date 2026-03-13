@@ -15,11 +15,11 @@ class Loss(ABC):
     """
 
     @abstractmethod
-    def forward(self, y_pred: np.ndarray, y_true: np.ndarray):
+    def forward(self, y_pred: np.ndarray, y_true: np.ndarray) -> float:
         pass
 
     @abstractmethod
-    def backward(self):
+    def backward(self) -> np.ndarray:
         pass
 
 
