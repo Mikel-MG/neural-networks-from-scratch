@@ -25,7 +25,8 @@ class Loss(ABC):
 
 class MSE(Loss):
     """
-    #TODO: Description
+    Mean Squared Error loss function
+    L = 1/N * (y_pred - y_true)^2
     """
 
     def forward(self, y_pred: np.ndarray, y_true: np.ndarray) -> float:
@@ -48,8 +49,12 @@ class MSE(Loss):
         return float(loss_value)
 
     def backward(self) -> np.ndarray:
-        """
-        Compute the dL_d_ypred gradient
+        """Computes the backward pass of the loss function.
+
+        Requires the cached values stored by the forward() method.
+
+        Returns:
+            The computed dL_d_ypred gradients.
         """
         diff = self.y_pred - self.y_true
         dL_d_ypred = 2 / diff.shape[0] * diff
