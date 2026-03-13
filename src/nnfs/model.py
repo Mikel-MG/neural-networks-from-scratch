@@ -86,7 +86,18 @@ class Sequential:
         self,
         X_inputs: np.ndarray,
         y_true: np.ndarray,
-    ):
+    ) -> float:
+        """Runs a training epoch, optimizing the model parameters.
+
+        It uses all the available data.
+
+        Args:
+            X_inputs (np.ndarray): Input data to the model, with shape=(M samples, N features)
+            y_true (np.ndarray): Ground-truth values for the prediction task.
+
+        Returns:
+            The computed loss value.
+        """
         # run forward pass
         y_pred = self.forward(X_inputs)
         loss_value = self.loss.forward(y_pred, y_true)
