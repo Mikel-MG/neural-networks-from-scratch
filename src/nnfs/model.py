@@ -74,6 +74,8 @@ class Sequential:
         """
         Update all layer weights and biases using stored gradients.
         """
+        # TODO: Remove this method after implementing testing
+
         # gradient descent update
         for layer in self.layers:
             if layer.trainable is not None:
@@ -107,7 +109,6 @@ class Sequential:
         X_inputs: np.ndarray,
         y_outputs: np.ndarray,
         N_epochs: int,
-        lr: float = 0.01,
         debug_flag: bool = False,
     ):
         prev_print_epoch = 0
