@@ -122,6 +122,18 @@ class Sequential:
         N_epochs: int,
         debug_flag: bool = False,
     ):
+        """Runs the training loop for the model.
+
+        In this loop, the forward and backward passes are computed to produce
+        optimal gradients, and then the model parameters are updated according
+        to those gradients. This loop runs for the specified number of epochs.
+
+        Args:
+            X_inputs (np.ndarray): Input data to the model, with shape=(M samples, N features).
+            y_outputs (np.ndarray): Ground-truth values for the prediction task.
+            N_epochs (int): Number of epochs to run during training.
+            debug_flag (bool): Flag which specifies whether to output debugging logs.
+        """
         prev_print_epoch = 0
         print_freq = N_epochs / 10
 
