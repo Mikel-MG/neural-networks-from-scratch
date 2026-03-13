@@ -24,9 +24,10 @@ class Loss(ABC):
 
 
 class MSE(Loss):
-    """
+    r"""
     Mean Squared Error loss function
-    L = 1/N * sum[(y_pred - y_true)^2]
+
+    $\mathcal{L}_{\text{MSE}} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2$
     """
 
     def forward(self, y_pred: np.ndarray, y_true: np.ndarray) -> float:
@@ -62,9 +63,10 @@ class MSE(Loss):
 
 
 class BCE(Loss):
-    """
+    r"""
     Binary Cross Entropy loss function
-    L = 1/N * sum -[y_true * log(y_pred) + (1 - y_true) * log(1 - y_pred)]
+
+    $\mathcal{L}_{\text{BCE}} = - \frac{1}{n} \sum_{i=1}^{n} \big[ y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \big]$
     """
 
     def forward(self, y_pred: np.ndarray, y_true: np.ndarray) -> float:
