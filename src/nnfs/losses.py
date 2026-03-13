@@ -26,7 +26,7 @@ class Loss(ABC):
 class MSE(Loss):
     """
     Mean Squared Error loss function
-    L = 1/N * (y_pred - y_true)^2
+    L = 1/N * sum[(y_pred - y_true)^2]
     """
 
     def forward(self, y_pred: np.ndarray, y_true: np.ndarray) -> float:
@@ -63,12 +63,22 @@ class MSE(Loss):
 
 class BCE(Loss):
     """
-    #TODO: add description
+    Binary Cross Entropy loss function
+    L = 1/N * sum -[y_true * log(y_pred) + (1 - y_true) * log(1 - y_pred)]
     """
 
     def forward(self, y_pred: np.ndarray, y_true: np.ndarray) -> float:
-        """
-        Run forward pass and store y_pred and y_true
+        """Computes the forward pass of the loss function.
+
+        The method stores `y_pred` and `y_true` as instance attributes for
+        later use by the backward pass.
+
+        Args:
+            y_pred (np.ndarray): Predictions produced by the model.
+            y_true (np.ndarray): Ground-truth values for the prediction task.
+
+        Returns:
+            The computed loss value.
         """
         self.y_pred = y_pred
         self.y_true = y_true
@@ -77,8 +87,12 @@ class BCE(Loss):
         return float(loss_value)
 
     def backward(self) -> np.ndarray:
-        """
-        Compute the dL_d_ypred gradient
+        """Computes the backward pass of the loss function.
+
+        Requires the cached values stored by the forward() method.
+
+        Returns:
+            The computed dL_d_ypred gradients.
         """
         y_pred = self.y_pred
         y_true = self.y_true
