@@ -6,6 +6,22 @@ from .optimizers import BaseOptimizer
 
 
 class Sequential:
+    """Sequential neural network model.
+
+    Represents a neural network composed of a sequence of layers, where the
+    output of each layer is used as the input to the next one.
+
+    Args:
+        list_layers (list): Ordered list of layers defining the model architecture.
+        loss (Loss): Loss object that specifies loss function.
+        optimizer (BaseOptimizer): Optimizer object that updates the layer parameters during training.
+
+    Attributes:
+        layers (list): Stored `list_layers` argument.
+        loss (Loss): Stored `loss` argument.
+        optimizer (BaseOptimizer): Stored `optimizer` argument.
+    """
+
     def __init__(
         self,
         list_layers: list,
@@ -16,11 +32,17 @@ class Sequential:
         self.loss = loss
         self.optimizer = optimizer
 
-    def forward(self, X_inputs: np.ndarray):
-        """
-        Runs the forward pass for the entire model.
+    def forward(self, X_inputs: np.ndarray) -> np.ndarray:
+        """Runs the forward pass for the entire model.
 
-        Each layer takes the input of the previous layer (the first layer takes the input data) and passes its output to the next layer.
+        Each layer takes the input of the previous layer (the first layer
+        takes the input data) and passes its output to the next layer.
+
+        Args:
+            X_inputs (np.ndarray): Input data to the model, with shape=(M samples, N features)
+
+        Returns:
+            Predictions produced by the model.
         """
         x = X_inputs
         for layer in self.layers:
