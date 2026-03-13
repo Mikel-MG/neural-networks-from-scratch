@@ -49,7 +49,21 @@ class Sequential:
             x = layer.forward(x)
         return x
 
-    def backward(self, d_loss):
+    def backward(self, d_loss: np.ndarray) -> np.ndarray:
+        """Runs the backward pass for the entire model.
+
+        Each layer takes the gradient of the next layer (the last layer
+        takes it from the loss function) and passes its own gradient to
+        the previous layer.
+
+        The gradient that the next layer represent dL / d_input_data (to the next layer)
+
+        Args:
+            d_loss (np.ndarray): Gradient provided by the next layer.
+
+        Returns:
+            dL / d_input_data (to the current layer), which is passed to the previous layer.
+        """
         # this is dL_d_output
         grad = d_loss
         for layer in reversed(self.layers):
