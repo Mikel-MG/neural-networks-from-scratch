@@ -73,10 +73,9 @@ class Sequential:
     def update_weights(self) -> None:
         """
         Update all layer weights and biases using stored gradients.
-        """
-        # TODO: Remove this method after implementing testing
 
-        # gradient descent update
+        The update mechanism depends on the optimizer.
+        """
         for layer in self.layers:
             if layer.trainable is not None:
                 for param, grad in layer.trainable:
@@ -108,6 +107,7 @@ class Sequential:
         # run backward pass
         _grad = self.backward(d_loss)
 
+        # update parameters
         self.update_weights()
 
         # re-compute loss
