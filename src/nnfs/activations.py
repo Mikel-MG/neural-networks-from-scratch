@@ -10,6 +10,10 @@ class BaseActivation(BaseLayer):
     since they do not have trainable parameters
     """
 
+    @property
+    def trainable(self):
+        return None
+
     pass
 
 
