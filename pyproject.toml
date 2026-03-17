@@ -34,3 +34,8 @@ dev = [
 # instruct setuptools to use the src/ layout
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "@abstractmethod",
+]
