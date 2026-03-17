@@ -34,6 +34,21 @@ def generate_linear_data(
     return (X, Y)
 
 
+def generate_XOR_gate() -> tuple[np.ndarray, np.ndarray]:
+    """Generates x and y coordinates representing a XOR gate.
+
+    This is a classic example of a problem that cannot be solved by a single linear neuron.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray]: X and Y data.
+    """
+
+    X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    Y = np.array([0, 1, 1, 0]).reshape(-1, 1)
+
+    return (X, Y)
+
+
 def generate_two_moons(
     n_samples: int,
 ) -> tuple[np.ndarray, np.ndarray]:
