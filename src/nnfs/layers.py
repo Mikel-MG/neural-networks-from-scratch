@@ -20,6 +20,7 @@ class BaseLayer(ABC):
         pass
 
     @property
+    @abstractmethod
     def trainable(self):
         return None
 
