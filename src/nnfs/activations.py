@@ -14,8 +14,6 @@ class BaseActivation(BaseLayer):
     def trainable(self):
         return None
 
-    pass
-
 
 def func_sigmoid(x: np.ndarray):
     return 1 / (1 + np.exp(-x))
@@ -60,3 +58,12 @@ class Sigmoid(BaseActivation):
             np.ndarray: Gradient of the loss with respect to this layer's input.
         """
         return grad_next * self.output * (1 - self.output)
+
+    def name(self) -> str:
+        """Returns the layer's name.
+
+        The name can be arbitrary but it has to be unique for each of the layer types.
+
+        It is used by the model to summarize layer architecture.
+        """
+        return "Sigmoid"

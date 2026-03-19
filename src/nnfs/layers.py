@@ -6,9 +6,11 @@ import numpy as np
 class BaseLayer(ABC):
     """Template for neural network layers.
 
-    Layers may optionally define a `trainable` property that returns a
-    list of (param, grad) tuples. Layers without trainable parameters
-    do not need to implement it.
+    Layers have to define a `trainable` property that returns a
+    list of (param, grad) tuples.
+
+    Layers also have to define a 'name' property which specifies
+    the base name of the layer.
     """
 
     @abstractmethod
@@ -22,6 +24,11 @@ class BaseLayer(ABC):
     @property
     @abstractmethod
     def trainable(self):
+        return None
+
+    @property
+    @abstractmethod
+    def name(self):
         return None
 
 
@@ -96,3 +103,14 @@ class Dense(BaseLayer):
             list[tuple[np.ndarray, np.ndarray]]: A list of tuples containing `(parameter, grad_parameters)` for each trainable parameter.
         """
         return [(self.W, self.dW), (self.b, self.db)]
+
+    @property
+    def name(self) -> str:
+        """Returns the layer's name.
+
+        The name can be arbitrary but it has to be unique for each of the layer types.
+
+        It is used by the model to summarize layer architecture, as well as to cache
+        layer-specific gradients (for example, to implement momentum).
+        """
+        return "Dense"
