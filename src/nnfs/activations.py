@@ -27,10 +27,16 @@ class Sigmoid(BaseActivation):
 
     Attributes:
         output (np.ndarray): Stores the output from the forward pass for use in the backward pass.
+        layer_name (str): Short name for the layer type.
+        index (int): Position of the layer within the full model (initializes at 0).
     """
 
     def __init__(self):
         self.output: np.ndarray = np.zeros(1)
+
+        # attributes for layer navigation
+        self.layer_name: str = "Sigmoid"
+        self.index: int = 0
 
     def forward(self, X_input: np.ndarray) -> np.ndarray:
         """Performs the forward pass using the sigmoid activation.
@@ -58,13 +64,3 @@ class Sigmoid(BaseActivation):
             np.ndarray: Gradient of the loss with respect to this layer's input.
         """
         return grad_next * self.output * (1 - self.output)
-
-    @property
-    def name(self) -> str:
-        """Returns the layer's name.
-
-        The name can be arbitrary but it has to be unique for each of the layer types.
-
-        It is used by the model to summarize layer architecture.
-        """
-        return "Sigmoid"

@@ -32,6 +32,10 @@ class Sequential:
         self.loss = loss
         self.optimizer = optimizer
 
+        # add suffixes to layer names to ensure uniqueness
+        for i, layer in enumerate(self.layers):
+            layer.index = i
+
     def forward(self, X_inputs: np.ndarray) -> np.ndarray:
         """Runs the forward pass for the entire model.
 

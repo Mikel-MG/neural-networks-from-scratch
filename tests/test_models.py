@@ -80,3 +80,21 @@ def test_nonlinear_model_training_step():
 
     # check that loss value has decreased
     assert loss_end < loss_start
+
+
+def test_model_summary():
+    # define the model
+    list_layers = [Dense(2, 2), Sigmoid(), Dense(2, 1), Sigmoid()]
+    loss_func = BCE()
+    optimizer = SGD()
+    model = Sequential(list_layers, loss_func, optimizer)
+
+    # check that all layers have a unique name (after model initialization)
+    list_names = [layer.name for layer in model.layers]
+    assert len(set(list_names)) == len(list_names)
+
+    # interactive check (run script directly to print summary)
+    model.summary()
+
+
+test_model_summary()

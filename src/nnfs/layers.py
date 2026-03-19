@@ -9,9 +9,15 @@ class BaseLayer(ABC):
     Layers have to define a `trainable` property that returns a
     list of (param, grad) tuples.
 
-    Layers also have to define a 'name' property which specifies
-    the base name of the layer.
+    Layers also have to define a `name` attribute which specifies
+    the base name of the layer. The name can be arbitrary but it has
+    to be unique for each of the layer types.
     """
+
+    @abstractmethod
+    def __init__(self):
+        self.layer_name: str = "UNINITIALIZED_NAME"
+        self.index: int = -1
 
     @abstractmethod
     def forward(self, X_input: np.ndarray) -> np.ndarray:
@@ -27,9 +33,13 @@ class BaseLayer(ABC):
         return None
 
     @property
-    @abstractmethod
-    def name(self):
-        return None
+    def name(self) -> str:
+        """Returns the layer's name.
+
+        It is used by the model to summarize layer architecture, as well as to cache
+        layer-specific gradients (for example, to implement momentum).
+        """
+        return f"{self.layer_name}_{self.index}"
 
 
 class Dense(BaseLayer):
@@ -46,6 +56,8 @@ class Dense(BaseLayer):
         dW (np.ndarray): gradient of loss w.r.t weight parameters.
         db (np.ndarray): gradient of loss w.r.t bias parameters.
         X_input (np.ndarray): cached input to the layer.
+        layer_name (str): Short name for the layer type.
+        index (int): Position of the layer within the full model (initializes at 0).
 
     """
 
@@ -58,6 +70,10 @@ class Dense(BaseLayer):
         self.dW = np.zeros(shape=self.W.shape)
         self.db = np.zeros(shape=self.b.shape)
         self.X_input = np.zeros(1)
+
+        # attributes for layer navigation
+        self.layer_name: str = "Dense"
+        self.index: int = 0
 
     def forward(self, X_input: np.ndarray) -> np.ndarray:
         """Computes the forward pass for the layer.
@@ -103,14 +119,3 @@ class Dense(BaseLayer):
             list[tuple[np.ndarray, np.ndarray]]: A list of tuples containing `(parameter, grad_parameters)` for each trainable parameter.
         """
         return [(self.W, self.dW), (self.b, self.db)]
-
-    @property
-    def name(self) -> str:
-        """Returns the layer's name.
-
-        The name can be arbitrary but it has to be unique for each of the layer types.
-
-        It is used by the model to summarize layer architecture, as well as to cache
-        layer-specific gradients (for example, to implement momentum).
-        """
-        return "Dense"
