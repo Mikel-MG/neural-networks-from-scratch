@@ -59,6 +59,7 @@ class Sigmoid(BaseActivation):
         """
         return grad_next * self.output * (1 - self.output)
 
+    @property
     def name(self) -> str:
         """Returns the layer's name.
 
