@@ -3,6 +3,7 @@ import numpy as np
 from .layers import BaseLayer
 from .losses import Loss
 from .optimizers import BaseOptimizer
+from .utils import BatchGenerator
 
 
 class Sequential:
@@ -92,8 +93,6 @@ class Sequential:
     ) -> float:
         """Runs a training epoch, optimizing the model parameters.
 
-        It uses all the available data.
-
         Args:
             X_inputs (np.ndarray): Input data to the model, with shape=(M samples, N features)
             y_true (np.ndarray): Ground-truth values for the prediction task.
@@ -124,6 +123,7 @@ class Sequential:
         X_inputs: np.ndarray,
         y_outputs: np.ndarray,
         N_epochs: int,
+        batch_size: int = -1,
         debug_flag: bool = False,
     ):
         """Runs the training loop for the model.
@@ -136,13 +136,22 @@ class Sequential:
             X_inputs (np.ndarray): Input data to the model, with shape=(M samples, N features).
             y_outputs (np.ndarray): Ground-truth values for the prediction task.
             N_epochs (int): Number of epochs to run during training.
+            batch_size (int): Number of samples per batch. By default, the entire dataset is used.
             debug_flag (bool): Flag which specifies whether to output debugging logs.
         """
         prev_print_epoch = 0
         print_freq = N_epochs / 10
 
+        batch_generator = BatchGenerator(X_inputs, y_outputs, batch_size)
+
         for i_epoch in range(N_epochs):
-            loss = self.run_training_epoch(X_inputs, y_outputs)
+            # run training epoch on each batch
+            batch_generator = BatchGenerator(X_inputs, y_outputs, batch_size)
+            for batch_counter in range(batch_generator.num_batches):
+                X_data_batch, y_data_batch = batch_generator.next()
+                loss = self.run_training_epoch(X_data_batch, y_data_batch)
+
+            # report progress each epoch
             if i_epoch >= prev_print_epoch + print_freq:
                 prev_print_epoch += print_freq
                 print(f"Epoch {i_epoch} - Loss: {loss}")
