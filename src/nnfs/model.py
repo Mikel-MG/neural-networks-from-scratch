@@ -125,12 +125,14 @@ class Sequential:
         N_epochs: int,
         batch_size: int = -1,
         debug_flag: bool = False,
-    ):
+    ) -> dict:
         """Runs the training loop for the model.
 
         In this loop, the forward and backward passes are computed to produce
         optimal gradients, and then the model parameters are updated according
         to those gradients. This loop runs for the specified number of epochs.
+
+        Each returned training metric is an array of shape=`(N_epochs, N_batches)`.
 
         Args:
             X_inputs (np.ndarray): Input data to the model, with shape=(M samples, N features).
@@ -138,24 +140,47 @@ class Sequential:
             N_epochs (int): Number of epochs to run during training.
             batch_size (int): Number of samples per batch. By default, the entire dataset is used.
             debug_flag (bool): Flag which specifies whether to output debugging logs.
+
+        Returns:
+            dict: A dictionary containing training metrics (such as `loss`).
         """
+        # store training metrics
+        list_losses = []
+
         prev_print_epoch = 0
         print_freq = N_epochs / 10
 
-        batch_generator = BatchGenerator(X_inputs, y_outputs, batch_size)
-
         for i_epoch in range(N_epochs):
+            # store losses for each batch (for this epoch)
+            epoch_losses = []
+
             # run training epoch on each batch
             batch_generator = BatchGenerator(X_inputs, y_outputs, batch_size)
             for batch_counter in range(batch_generator.num_batches):
                 X_data_batch, y_data_batch = batch_generator.next()
                 loss = self.run_training_epoch(X_data_batch, y_data_batch)
+                # store loss
+                epoch_losses.append(loss)
 
             # report progress each epoch
             if i_epoch >= prev_print_epoch + print_freq:
                 prev_print_epoch += print_freq
                 print(f"Epoch {i_epoch} - Loss: {loss}")
+
+            # store losses for this epoch
+            list_losses.append(epoch_losses)
+
         print(f"Epoch {i_epoch} - Loss: {loss}")
+
+        # cast each metric as an appropriately shaped np.ndarray
+        dict_history = {}
+
+        # store history of loss
+        array_losses = np.array(list_losses)
+        assert array_losses.shape[0] == N_epochs
+        dict_history["loss"] = array_losses
+
+        return dict_history
 
     def summary(self):
         """Prints a text summary of the model architecture."""
