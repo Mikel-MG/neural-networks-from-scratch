@@ -7,7 +7,7 @@ class BaseLayer(ABC):
     """Template for neural network layers.
 
     Layers have to define a `trainable` property that returns a
-    list of (param, grad) tuples.
+    list of (name_param, param, grad) tuples.
 
     Layers also have to define a `name` attribute which specifies
     the base name of the layer. The name can be arbitrary but it has
@@ -58,7 +58,6 @@ class Dense(BaseLayer):
         X_input (np.ndarray): cached input to the layer.
         layer_name (str): Short name for the layer type.
         index (int): Position of the layer within the full model (initializes at 0).
-
     """
 
     def __init__(self, input_size: int, output_size: int):
@@ -83,7 +82,6 @@ class Dense(BaseLayer):
 
         Returns:
             np.ndarray: Output of the layer.
-
         """
         self.X_input = X_input
         output = np.matmul(X_input, self.W) + self.b
@@ -109,13 +107,16 @@ class Dense(BaseLayer):
         return d_input
 
     @property
-    def trainable(self) -> list[tuple[np.ndarray, np.ndarray]]:
+    def trainable(self) -> list[tuple[str, np.ndarray, np.ndarray]]:
         """Returns the layer's trainable parameters and their gradients.
 
-        Each element is a tuple (param, grad) representing a parameter array
-        and its corresponding gradient, which are used by the optimizer during training.
+        Each element is a tuple (name, param, grad) representing a parameter name,
+        value, and corresponding gradient. These are used by the optimizer during training.
 
         Returns:
-            list[tuple[np.ndarray, np.ndarray]]: A list of tuples containing `(parameter, grad_parameters)` for each trainable parameter.
+            A list of tuples containing `(name, parameter, grad_parameters)` for each trainable parameter.
         """
-        return [(self.W, self.dW), (self.b, self.db)]
+        return [
+            ("W", self.W, self.dW),
+            ("b", self.b, self.db),
+        ]

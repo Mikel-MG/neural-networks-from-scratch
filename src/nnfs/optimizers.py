@@ -10,7 +10,7 @@ class BaseOptimizer(ABC):
     """
 
     @abstractmethod
-    def update(self, parameters: np.ndarray, gradients: np.ndarray):
+    def update(self, param_id: str, parameters: np.ndarray, gradients: np.ndarray):
         pass
 
 
@@ -27,10 +27,13 @@ class SGD(BaseOptimizer):
     def __init__(self, lr: float = 0.01):
         self.lr = lr
 
-    def update(self, parameters: np.ndarray, gradients: np.ndarray) -> None:
+    def update(
+        self, param_id: str, parameters: np.ndarray, gradients: np.ndarray
+    ) -> None:
         """Updates layer parameters using precomputed gradients.
 
         Args:
+            param_id (str): Layer.param identifier.
             parameters (np.ndarray): Model parameters.
             gradients (np.ndarray): dL / d_params gradients.
         """

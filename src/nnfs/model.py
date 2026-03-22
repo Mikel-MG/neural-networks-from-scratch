@@ -83,8 +83,10 @@ class Sequential:
         """
         for layer in self.layers:
             if layer.trainable is not None:
-                for param, grad in layer.trainable:
-                    self.optimizer.update(param, grad)
+                layer_name = layer.name
+                for param_name, param, grad in layer.trainable:
+                    param_id = f"{layer_name}.{param_name}"
+                    self.optimizer.update(param_id, param, grad)
 
     def run_training_epoch(
         self,
