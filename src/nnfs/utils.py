@@ -43,3 +43,28 @@ class BatchGenerator:
         self.index += self.batch_size
 
         return X_data_batch, y_data_batch
+
+
+def shuffle(list_arrays: list[np.ndarray]):
+    """Randomly shuffle each row in a list of arrays.
+
+    Args:
+        list_arrays (np.ndarray): List of arrays of equal number of rows.
+
+    Returns:
+        List of shuffled arrays.
+    """
+    # check that all arrays have the same number of samples
+    N_samples = list_arrays[0].shape[0]
+    for array in list_arrays:
+        assert array.shape[0] == N_samples
+
+    # generate a random permutation
+    permutation = np.random.permutation(len(list_arrays[0]))
+
+    # change every array according to the same permutation
+    for i, array in enumerate(list_arrays):
+        print(list_arrays[i].shape)
+        list_arrays[i] = array[permutation]
+
+    return list_arrays
