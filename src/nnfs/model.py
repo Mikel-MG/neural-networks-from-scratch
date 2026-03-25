@@ -126,6 +126,8 @@ class Sequential:
         y_outputs: np.ndarray,
         N_epochs: int,
         batch_size: int = -1,
+        X_test_inputs: None | np.ndarray = None,
+        y_test_outputs: None | np.ndarray = None,
         debug_flag: bool = False,
     ) -> dict:
         """Runs the training loop for the model.
@@ -141,6 +143,8 @@ class Sequential:
             y_outputs (np.ndarray): Ground-truth values for the prediction task.
             N_epochs (int): Number of epochs to run during training.
             batch_size (int): Number of samples per batch. By default, the entire dataset is used.
+            X_val_inputs (None | np.ndarray): Input data for validation.
+            y_val_outputs (None | np.ndarray): Ground-truth values for validation.
             debug_flag (bool): Flag which specifies whether to output debugging logs.
 
         Returns:
@@ -148,6 +152,7 @@ class Sequential:
         """
         # store training metrics
         list_losses = []
+        list_test_losses = []
 
         prev_print_epoch = 0
         print_freq = N_epochs / 10
@@ -172,15 +177,25 @@ class Sequential:
             # store losses for this epoch
             list_losses.append(epoch_losses)
 
+            if X_test_inputs is not None and y_test_outputs is not None:
+                y_test_pred = self.forward(X_test_inputs)
+                val_loss = self.loss.forward(y_test_pred, y_test_outputs)
+                list_test_losses.append(val_loss)
+
         print(f"Epoch {i_epoch} - Loss: {loss}")
 
         # cast each metric as an appropriately shaped np.ndarray
         dict_history = {}
 
-        # store history of loss
+        # store history of losses
         array_losses = np.array(list_losses)
         assert array_losses.shape[0] == N_epochs
         dict_history["loss"] = array_losses
+
+        # add the list of testing losses if applicable
+        if len(list_test_losses) > 0:
+            array_val_losses = np.array(list_test_losses)
+            dict_history["val_loss"] = array_val_losses
 
         return dict_history
 
