@@ -143,8 +143,8 @@ class Sequential:
             y_outputs (np.ndarray): Ground-truth values for the prediction task.
             N_epochs (int): Number of epochs to run during training.
             batch_size (int): Number of samples per batch. By default, the entire dataset is used.
-            X_val_inputs (None | np.ndarray): Input data for validation.
-            y_val_outputs (None | np.ndarray): Ground-truth values for validation.
+            X_test_inputs (None | np.ndarray): Input data for validation.
+            y_test_outputs (None | np.ndarray): Ground-truth values for validation.
             debug_flag (bool): Flag which specifies whether to output debugging logs.
 
         Returns:
