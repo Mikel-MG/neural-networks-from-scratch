@@ -1,6 +1,6 @@
 import numpy as np
 
-from .layers import BaseLayer
+from .layers import BaseLayer, Dense
 from .losses import Loss
 from .optimizers import BaseOptimizer
 from .utils import BatchGenerator
@@ -202,9 +202,25 @@ class Sequential:
     def summary(self):
         """Prints a text summary of the model architecture."""
 
+        N_total_params = 0
+        sep = " " * 4
         print("Model layers:")
         for layer in self.layers:
-            print(f"\t* {layer.name}")
+            print(f"{sep}* {layer.name} ", end="")
 
-        # TODO: Add number of parameters
-        # TODO: Add dimensionality of each layer
+            # get input and output dimensions, if applicable
+            if isinstance(layer, Dense):
+                input_size, output_size = layer.W.shape
+                print(f" | Dimensions: {input_size} x {output_size}", end="")
+
+            # get number of parameters
+            if layer.trainable is not None:
+                N_params = sum(
+                    [np.prod(param.shape) for name, param, grads in layer.trainable]
+                )
+                N_total_params += N_params
+                print(f" | Parameters: {N_params}", end="")
+
+            print()
+        print(f"{sep}{'-' * 20}")
+        print(f"{sep}Total parameters: {N_total_params}")
