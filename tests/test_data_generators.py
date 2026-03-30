@@ -42,7 +42,13 @@ def test_concentric_circles_nonbinary():
 
 
 def test_mnist_loader():
-    X, Y = load_mnist()
+    X, Y = load_mnist(use_cached=False)
+
+    # check that array size and shape are as expected
+    assert X.shape == pytest.approx([70000, 784])
+    assert Y.shape == pytest.approx([70000, 1])
+
+    X, Y = load_mnist(use_cached=True)
 
     # check that array size and shape are as expected
     assert X.shape == pytest.approx([70000, 784])
