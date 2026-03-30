@@ -128,7 +128,7 @@ class Sequential:
         batch_size: int = -1,
         X_test_inputs: None | np.ndarray = None,
         y_test_outputs: None | np.ndarray = None,
-        debug_flag: bool = False,
+        debug_flag: bool = True,
     ) -> dict:
         """Runs the training loop for the model.
 
@@ -154,10 +154,11 @@ class Sequential:
         list_losses = []
         list_test_losses = []
 
-        prev_print_epoch = 0
-        print_freq = N_epochs / 10
+        # generate array of epochs to report
+        epoch_to_report = np.arange(0, N_epochs + 1, N_epochs // 10)
+        epoch_to_report[0] = 1  # start reporting at epoch=1
 
-        for i_epoch in range(N_epochs):
+        for i_epoch in range(1, N_epochs + 1):
             # store losses for each batch (for this epoch)
             epoch_losses = []
 
@@ -170,19 +171,17 @@ class Sequential:
                 epoch_losses.append(loss)
 
             # report progress each epoch
-            if i_epoch >= prev_print_epoch + print_freq:
-                prev_print_epoch += print_freq
+            if debug_flag is True and i_epoch in epoch_to_report:
                 print(f"Epoch {i_epoch} - Loss: {loss}")
 
             # store losses for this epoch
             list_losses.append(epoch_losses)
 
+            # store loss for testing dataset
             if X_test_inputs is not None and y_test_outputs is not None:
                 y_test_pred = self.forward(X_test_inputs)
                 val_loss = self.loss.forward(y_test_pred, y_test_outputs)
                 list_test_losses.append(val_loss)
-
-        print(f"Epoch {i_epoch} - Loss: {loss}")
 
         # cast each metric as an appropriately shaped np.ndarray
         dict_history = {}
