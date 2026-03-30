@@ -1,7 +1,10 @@
 import pytest
 
-from nnfs.datasets.data_generators import (generate_concentric_circles,
-                                           generate_two_moons)
+from nnfs.datasets.data_generators import (
+    generate_concentric_circles,
+    generate_two_moons,
+)
+from nnfs.datasets.data_loaders import load_mnist
 
 
 def test_two_moons_generator():
@@ -36,3 +39,11 @@ def test_concentric_circles_nonbinary():
 
     # check that the number of labels is as expected
     assert len(set(Y.flatten())) == 4
+
+
+def test_mnist_loader():
+    X, Y = load_mnist()
+
+    # check that array size and shape are as expected
+    assert X.shape == pytest.approx([70000, 784])
+    assert Y.shape == pytest.approx([70000, 1])
