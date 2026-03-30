@@ -1,11 +1,16 @@
 import pytest
 
-from nnfs.activations import Sigmoid
-from nnfs.datasets.data_generators import generate_linear_data, generate_XOR_gate
+from nnfs.activations import Sigmoid, Softmax
+from nnfs.datasets.data_generators import (
+    generate_concentric_circles,
+    generate_linear_data,
+    generate_XOR_gate,
+)
 from nnfs.layers import Dense
-from nnfs.losses import BCE, MSE
+from nnfs.losses import BCE, CCE, MSE
 from nnfs.model import Sequential
 from nnfs.optimizers import SGD
+from nnfs.utils import class_to_onehot, shuffle
 
 
 def test_linear_model_training_step():
@@ -95,6 +100,29 @@ def test_nonlinear_model_training_step():
 
     # check that loss value has decreased
     assert loss_end < loss_start
+
+
+def test_multilabel_classification_model():
+    # generate data
+    X_data, y_true = generate_concentric_circles(500, 3)
+    X_data, y_true = shuffle([X_data, y_true])
+    y_true_onehot = class_to_onehot(y_true, 3)
+
+    # define the model
+    list_layers = [
+        Dense(2, 16),
+        Sigmoid(),
+        Dense(16, 3),
+        Softmax(),
+    ]
+    loss = CCE()
+    optimizer = SGD(lr=0.001, momentum=0.95)
+    model = Sequential(list_layers, loss, optimizer)
+
+    # check that the loss has been significantly lowered
+    history = model.fit(X_data, y_true_onehot, 10000, debug_flag=True)
+    loss_train = history["loss"]
+    assert loss_train[-1].mean() < 0.5
 
 
 def test_model_summary():
