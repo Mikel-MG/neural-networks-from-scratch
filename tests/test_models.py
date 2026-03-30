@@ -36,6 +36,7 @@ def test_linear_model_training_step():
 def test_linear_model_training_optimization():
     # generate data
     X_data, y_true = generate_linear_data(3, -7, 5000)
+    X_data_test, y_true_test = generate_linear_data(3, -7, 1000)
 
     # define the model
     list_layers = [Dense(1, 1)]
@@ -44,7 +45,14 @@ def test_linear_model_training_optimization():
     model = Sequential(list_layers, loss_func, optimizer)
 
     # train the model
-    model.fit(X_data, y_true, N_epochs=5000)
+    N_epochs = 5000
+    history = model.fit(
+        X_data,
+        y_true,
+        N_epochs=N_epochs,
+        X_test_inputs=X_data_test,
+        y_test_outputs=y_true_test,
+    )
 
     # extract layer parameters
     layer = model.layers[0]
@@ -55,6 +63,13 @@ def test_linear_model_training_optimization():
     # check that optimized parameters match ideal values
     assert 3 == pytest.approx(opt_W, abs=0.1)
     assert -7 == pytest.approx(-7, opt_b, abs=0.1)
+
+    # check that recorded losses feature expected dimensions
+    train_loss = history["loss"]
+    test_loss = history["test_loss"]
+
+    assert train_loss.shape[0] == N_epochs
+    assert test_loss.shape[0] == N_epochs
 
 
 def test_nonlinear_model_training_step():
