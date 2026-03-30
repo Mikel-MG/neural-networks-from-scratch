@@ -68,3 +68,24 @@ def shuffle(list_arrays: list[np.ndarray]):
         list_arrays[i] = array[permutation]
 
     return list_arrays
+
+
+def class_to_onehot(y: np.ndarray, num_classes: int) -> np.ndarray:
+    """Transforms categorical data into one-hot encoded matrix.
+
+    It interprets categorical data in range [0, N_classes -1].
+
+    Args:
+        y (np.ndarray): Y target data of shape `N_samples, 1`.
+        num_classes (int): Number of different classes.
+
+    Returns:
+        One-hot encoded matrix of shape `N_samples, N_classes`.
+    """
+    # flatten labels
+    labels = y.astype(int).ravel()
+
+    # compute one-hot encoded labels
+    one_hot = np.eye(num_classes)[labels]
+
+    return one_hot
