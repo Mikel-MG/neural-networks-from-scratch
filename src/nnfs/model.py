@@ -193,8 +193,8 @@ class Sequential:
 
         # add the list of testing losses if applicable
         if len(list_test_losses) > 0:
-            array_val_losses = np.array(list_test_losses)
-            dict_history["val_loss"] = array_val_losses
+            array_test_losses = np.array(list_test_losses)
+            dict_history["test_loss"] = array_test_losses
 
         return dict_history
 
