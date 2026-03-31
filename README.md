@@ -4,9 +4,7 @@ This project is an implementation of a neural network framework built from scrat
 
 My goal was to explore and better understand how neural networks work under the hood.
 
-The code provides modular implementations of common components such as densely-connected layers, activation and loss functions, a stochastic gradient descent optimizer, and a simple sequential model interface.
-
-The repository also includes notebooks that walk through the underlying ideas step by step, from gradient computation to linear regression and nonlinear classification, together with documentation covering both the API and the mathematical background.
+The code provides modular implementations of common components such as densely-connected layers, activation and loss functions, a stochastic gradient descent optimizer, and a simple sequential model interface. The repository also includes notebooks that walk through the underlying ideas step by step, from gradient computation to linear regression and nonlinear classification, together with documentation covering both the API and the mathematical background.
 
 
 # Installation
@@ -14,6 +12,7 @@ The repository also includes notebooks that walk through the underlying ideas st
 ```bash
 # set-up environment
 source ./0_setup.sh
+```
 
 ```bash
 # run integration tests
