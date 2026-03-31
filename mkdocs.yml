@@ -2,8 +2,8 @@ site_name: Documentation for RCC1 analyses
 nav:
   - Home: index.md
   - Math:
-      - Layers: math_layers.md
       - Activation functions: math_activations.md
+      - Loss functions: math_losses.md
   - API reference:
       - Datasets: api/api_datasets.md
       - Model: api/api_model.md
