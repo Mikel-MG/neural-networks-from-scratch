@@ -1,4 +1,4 @@
-site_name: Documentation for RCC1 analyses
+site_name: Neural networks from scratch
 nav:
   - Home: index.md
   - Math:
