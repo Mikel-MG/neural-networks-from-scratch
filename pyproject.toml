@@ -26,9 +26,10 @@ dev = [
     "mkdocs",
     "mkdocs-material",
     "mkdocstrings-python",
+    "mkdocs-jupyter",
     "pytest",
-    "coverage"
-
+    "coverage",
+    "scikit-learn",
 ]
 
 # instruct setuptools to use the src/ layout

@@ -1,6 +1,8 @@
 site_name: Neural networks from scratch
 nav:
   - Home: index.md
+  - Examples:
+      - Introduction to gradients: notebooks/0_gradients_prologue.ipynb
   - Math:
       - Activation functions: math_activations.md
       - Loss functions: math_losses.md
@@ -33,6 +35,9 @@ plugins:
               show_submodules: true
               docstring_style: google
               members_order: source
+  - mkdocs-jupyter:
+      ignore_h1_titles: True
+
 
 markdown_extensions:
   - admonition
