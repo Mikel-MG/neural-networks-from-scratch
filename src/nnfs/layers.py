@@ -38,6 +38,9 @@ class BaseLayer(ABC):
 
         It is used by the model to summarize layer architecture, as well as to cache
         layer-specific gradients (for example, to implement momentum).
+
+        Returns:
+            A layer_id of the form layer.name_layer.index.
         """
         return f"{self.layer_name}_{self.index}"
 
@@ -81,7 +84,7 @@ class Dense(BaseLayer):
             X_input (np.ndarray): Input data to be transformed by the layer.
 
         Returns:
-            np.ndarray: Output of the layer.
+            Output of the layer.
         """
         self.X_input = X_input
         output = np.matmul(X_input, self.W) + self.b
@@ -96,7 +99,7 @@ class Dense(BaseLayer):
             grad_next (np.ndarray): Gradients fed back from the next layer during backpropagation.
 
         Returns:
-            np.ndarray: Gradient of the loss w.r.t the input to the layer.
+            Gradient of the loss w.r.t the input to the layer.
         """
         # Gradients w.r.t parameters
         self.dW = np.matmul(self.X_input.T, grad_next)  # shape: (input_dim, output_dim)

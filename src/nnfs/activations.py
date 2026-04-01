@@ -45,7 +45,7 @@ class Sigmoid(BaseActivation):
             X_input (np.ndarray): Input array to the layer.
 
         Returns:
-            np.ndarray: Activated output after applying sigmoid.
+            Activated output after applying sigmoid.
         """
         output = func_sigmoid(X_input)
         self.output = output
@@ -61,7 +61,7 @@ class Sigmoid(BaseActivation):
             grad_next (np.ndarray): Gradient from the next layer.
 
         Returns:
-            np.ndarray: Gradient of the loss with respect to this layer's input.
+            Gradient of the loss with respect to this layer's input.
         """
         return grad_next * self.output * (1 - self.output)
 
@@ -103,7 +103,7 @@ class Softmax(BaseActivation):
             X_input (np.ndarray): Input array to the layer.
 
         Returns:
-            np.ndarray: Activated output after applying softmax.
+            Activated output after applying softmax.
         """
         output = func_softmax(X_input)
         self.output = output
@@ -119,7 +119,7 @@ class Softmax(BaseActivation):
             grad_next (np.ndarray): Gradient from the next layer.
 
         Returns:
-            np.ndarray: Gradient of the loss with respect to this layer's input.
+            Gradient of the loss with respect to this layer's input.
         """
         # softmax probabilities
         s = self.output  # shape (batch_size, num_classes)

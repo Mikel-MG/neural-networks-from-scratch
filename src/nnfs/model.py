@@ -148,7 +148,7 @@ class Sequential:
             debug_flag (bool): Flag which specifies whether to output debugging logs.
 
         Returns:
-            dict: A dictionary containing training metrics (such as `loss`).
+            A dictionary containing training metrics (such as `loss`).
         """
         # store training metrics
         list_losses = []
