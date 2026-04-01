@@ -1,4 +1,5 @@
 site_name: Neural networks from scratch
+repo_url: https://github.com/Mikel-MG/neural-networks-from-scratch
 nav:
   - Home: index.md
   - Examples:
