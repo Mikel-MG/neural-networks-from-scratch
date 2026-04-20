@@ -7,6 +7,7 @@ nav:
       - Linear regression: notebooks/1_linear_regression.ipynb
       - Non-linear binary classification: notebooks/2_binary_non-linear_classification.ipynb
       - Multiclass classification: notebooks/3_multiclass_classification.ipynb
+      - Representation learning: notebooks/4_representation_learning.ipynb
   - Math:
       - Activation functions: math_activations.md
       - Loss functions: math_losses.md
