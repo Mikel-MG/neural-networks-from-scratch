@@ -1,11 +1,9 @@
 import pytest
 
 from nnfs.activations import Sigmoid, Softmax
-from nnfs.datasets.data_generators import (
-    generate_concentric_circles,
-    generate_linear_data,
-    generate_XOR_gate,
-)
+from nnfs.datasets.data_generators import (generate_concentric_circles,
+                                           generate_linear_data,
+                                           generate_XOR_gate)
 from nnfs.layers import Dense
 from nnfs.losses import BCE, CCE, MSE
 from nnfs.model import Sequential
@@ -140,4 +138,32 @@ def test_model_summary():
     model.summary()
 
 
+def test_few_epoch_training():
+    # generate data
+    X_data, y_true = generate_linear_data(3, -7, 5000)
+    X_data_test, y_true_test = generate_linear_data(3, -7, 1000)
+
+    # define the model
+    list_layers = [Dense(1, 1)]
+    loss_func = MSE()
+    optimizer = SGD(lr=0.01)
+    model = Sequential(list_layers, loss_func, optimizer)
+
+    # train the model
+    N_epochs = 7
+    history = model.fit(
+        X_data,
+        y_true,
+        N_epochs=N_epochs,
+        X_test_inputs=X_data_test,
+        y_test_outputs=y_true_test,
+        debug_flag=True,
+    )
+
+    # check that the size of loss history corresponds to the number of training epochs
+    assert len(history["loss"]) == N_epochs
+
+
+# interactive testing (run this script to see output)
 test_model_summary()
+test_few_epoch_training()

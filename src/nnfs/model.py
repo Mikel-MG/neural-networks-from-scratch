@@ -155,8 +155,11 @@ class Sequential:
         list_test_losses = []
 
         # generate array of epochs to report
-        epoch_to_report = np.arange(0, N_epochs + 1, N_epochs // 10)
-        epoch_to_report[0] = 1  # start reporting at epoch=1
+        if N_epochs < 10:
+            epoch_to_report = np.arange(1, N_epochs + 1)
+        else:
+            epoch_to_report = np.arange(0, N_epochs + 1, N_epochs // 10)
+            epoch_to_report[0] = 1  # start reporting at epoch=1
 
         for i_epoch in range(1, N_epochs + 1):
             # store losses for each batch (for this epoch)
