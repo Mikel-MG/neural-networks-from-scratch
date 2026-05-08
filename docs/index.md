@@ -14,7 +14,7 @@ A minimal neural network framework built from scratch using only NumPy, designed
 
 ### Motivation
 
-This project is the result of my efforts in understanding the mathematical and computational background behind neural networks. Even though I have been a "competent" neural network "practitioner" for years, and I have read through fairly detailed write-ups and tutorials on the topic, I always felt something was missing. That *something*, I now realize, was knowing inside and out how a neural network works, at the single-operation level. And for this, I think it is required to implement one, including backpropagation, from scratch (within limits; implementing matrix operations from scratch is interesting, but it is not that conceptually relevant).
+This project is the result of my efforts in understanding the mathematical and computational background behind neural networks. Even though I have been a "competent" neural network "practitioner" for years, and I have read through fairly detailed write-ups and tutorials on the topic, I always felt something was missing. That *something*, I now realize, was knowing inside and out how a neural network works, at the level of individual operations. And for this, I think it is required to implement one, including backpropagation, from scratch (within limits; implementing matrix operations from scratch is interesting, but it is not that conceptually relevant).
 
 Working on this project has been incredibly formative, and I only regret that I had not done it earlier. My advice to any new up-and-coming learners in neural networks is: make your own! Obligatory Richard Feynman quote,
 > "What I cannot create, I do not understand."
